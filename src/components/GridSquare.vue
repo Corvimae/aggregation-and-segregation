@@ -1,6 +1,5 @@
 <template>
-  <div class="grid-square" v-bind:style="[styles]" @click="toggleTeam">
-  </div>
+  <div class="grid-square" v-bind:style="[styles]"></div>
 </template>
 
 <script lang="ts">
@@ -22,25 +21,6 @@ export default class GridSquare extends Vue {
     return {
       backgroundColor: this.data.getTeamColor(this.$store)
     };
-  }
-
-  toggleTeam() {
-    const teamList: Team[] = teams.getTeams(this.$store);
-    const team: Team | undefined = this.data.getTeam(this.$store);
-
-    if (team) {
-      const teamIndex: number = _.findIndex(teamList, possibleMatch => possibleMatch.id === team.id);
-
-      if (teamIndex === teamList.length - 1) {
-        this.data.setTeam(undefined);
-      } else {
-        this.data.setTeam(teamList[teamIndex + 1]);
-      }
-    } else {
-      this.data.setTeam(teamList[0]);
-    }
-
-    tiles.updateTile(this.$store, this.data);
   }
 }
 </script>
