@@ -1,18 +1,18 @@
 <template>
   <div class="team-selection-rule">
-    <select v-model="isPositive">
+    <select class="is-positive" v-model="isPositive">
       <option value="true">Must have</option>
       <option value="false">Cannot have</option>
     </select>
-    <select v-model="limitOperand">
+    <select class="limit-operand" v-model="limitOperand">
       <option value=">">more than</option>
       <option value=">=">at least</option>
       <option value="=">exactly</option>
       <option value="<=">at most</option>
       <option value="<">fewer than</option>
     </select>
-    <input type="number" v-model="limit"/>
-    <span>&nbsp;neighbors from&nbsp;</span>
+    <input type="number" class="limit" v-model="limit"/>
+    <span class="neighbors-label">&nbsp;neighbors from&nbsp;</span>
     <select v-model="limitingTeamId">
       <option :value="NoTeamRule">empty squares</option>
       <option v-for="team in teams" :value="team.id" :key="team.id">{{team.name}}</option>
@@ -61,8 +61,13 @@ export default class TeamSelectionRuleRow extends Vue {
 
 <style scoped>
 .team-selection-rule {
-  border-bottom: 1px solid #333;
-  margin-bottom: 3px;
-  padding-bottom: 3px;
+  border-bottom: 1px dashed #aaa;
+  margin-bottom: 4px;
+  padding: 4px 8px;
+}
+
+.limit {
+  width: 40px;
+  text-align: center;
 }
 </style>

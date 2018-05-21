@@ -1,8 +1,6 @@
 <template>
   <div class="color-picker">
-    <div class="toggle" @click="toggle">
-      <div class="toggle-inner" :style="[styles]"></div>
-    </div>
+    <div class="toggle" :style="[styles]" @click.stop="toggle"></div>
     <sketch v-if="expanded" v-model="selectedBackgroundColor" v-on-clickaway="hide"/>
   </div>
 </template>
@@ -54,27 +52,20 @@ export default class ColorPicker extends Vue {
 
 <style scoped>
 .color-picker {
-  position: relative;
+  position: absolute;
+  left: 0;
+  height: 100%;
 }
 
 .toggle {
   position: relative;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #333;
-  box-sizing: border-box;
-}
-
-.toggle-inner {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  left: 2px;
-  top: 2px;
+  width: 20px;
+  height: 100%;
   box-sizing: border-box;
 }
 
 .vc-sketch {
   position: absolute;
+  z-index: 1000;
 }
 </style>

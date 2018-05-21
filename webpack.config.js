@@ -15,6 +15,10 @@ module.exports = {
   },
   module: {
     rules: [
+      { 
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader' 
+      },
       {
         test: /\.css$/,
         use: [
@@ -38,7 +42,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
@@ -52,7 +56,8 @@ module.exports = {
       data: srcPath("data"),
       components: srcPath("components"),
       utils: srcPath("utils"),
-      store: srcPath("store")
+      store: srcPath("store"),
+      assets: srcPath("assets")
     },
     extensions: ['.ts', '.js', '.vue', '.json']
   },

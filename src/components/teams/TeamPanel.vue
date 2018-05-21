@@ -1,20 +1,25 @@
 <template>
-  <collapseable-panel :name="team.name" :canEditName="true" :expanded.sync="expanded" v-on:update-name="updateName">
-    <color-picker :backgroundColor="updatedTeamState.backgroundColor" v-on:update="updateTeamColor"/>
+  <collapseable-panel class="team-panel" :name="team.name" :canEditName="true" :expanded.sync="expanded" v-on:update-name="updateName">
+    <template slot="header-before">
+      <color-picker :backgroundColor="updatedTeamState.backgroundColor" v-on:update="updateTeamColor"/>
+    </template>
+    <template slot="contents">
+      <team-neighbor-selector :team="updatedTeamState"/>
+      
+      <team-selection-rule-editor :team="updatedTeamState"/>
+      
+      <div class="panel-label">Search Method</div>
+      <select class="search-method" v-model="updatedTeamState.searchMethod">
+        <option value="PreferNearest">Prefer Nearest</option>
+        <option value="PreferFarthest">Prefer Farthest</option>
+        <option value="LeftToRight">Left to Right</option>
+      </select>
 
-    <team-neighbor-selector :team="updatedTeamState"/>
-    
-    <team-selection-rule-editor :team="updatedTeamState"/>
-    
-    <div class="panel-label">Search Method</div>
-    <select v-model="updatedTeamState.searchMethod">
-      <option value="PreferNearest">Prefer Nearest</option>
-      <option value="PreferFarthest">Prefer Farthest</option>
-      <option value="LeftToRight">Left to Right</option>
-    </select>
-
-    <button @click="saveTeam">Save</button>
-    <button @click="deleteTeam">Delete Team</button>
+      <div class="actions">
+        <button @click="saveTeam">Save</button>
+        <button @click="deleteTeam">Delete</button>
+      </div>
+    </template>
   </collapseable-panel>
 </template>
 
@@ -61,5 +66,31 @@ export default class TeamPanel extends Vue {
 </script>
 
 <style scoped>
+.panel-label {
+  padding: 4px 8px;
+  margin-top: 4px;
+  border-top: 1px solid #333;
+}
 
+.search-method {
+  margin: 0 8px;
+}
+
+.actions {
+  display: flex;
+  padding: 4px 8px;
+  margin-top: 4px;
+  border-top: 1px solid #333;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions button {
+  flex-grow: 1;
+}
+
+.actions button:not(:last-child) {
+  margin-right: 8px;
+}
 </style>

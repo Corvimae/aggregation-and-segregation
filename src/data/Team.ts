@@ -27,21 +27,6 @@ export class Team {
   addRule(rule: TeamSelectionRule) {
     this.rules.push(rule);
   }
-
-  getSearchOrderingMethod(): (source: TileData, grid: TileData[]) => TileData[] {
-    const sortByDistance = (source: TileData, tile: TileData) => Math.sqrt(Math.pow(source.x - tile.x, 2) + Math.pow(source.y - tile.y, 2));
-
-    switch (this.searchMethod) {
-      case "PreferNearest":
-        return (source, grid) => _.sortBy(grid, tile => sortByDistance(source, tile));
-      case "PreferFarthest":
-        return (source, grid) => _.reverse(_.sortBy(grid, tile => sortByDistance(source, tile)));
-      case "LeftToRight":
-        return (source, grid) => grid;
-    }
-
-    return (source, grid) => grid;
-  }
 }
 
 export type TeamSearchMethod = "PreferNearest" | "PreferFarthest" | "LeftToRight";

@@ -1,6 +1,8 @@
 <template>
-  <div class="grid" :style="{ '--columns': this.gridWidth }"> 
-    <grid-square v-for="tile in tiles" :data="tile" :key="tile.id"/>
+  <div class="grid-container">
+    <div class="grid" :style="{ '--columns': this.gridWidth }">
+      <grid-square v-for="tile in tiles" :data="tile" :key="tile.id"/>
+    </div>
   </div>
 </template>
 
@@ -24,7 +26,7 @@ export default class Grid extends Vue {
   }
 
   get tiles(): TileData[] {
-    return tiles.getTiles(this.$store);
+    return _.flatten(tiles.getTiles(this.$store));
   }
 
   get teams(): Team[] {
@@ -33,8 +35,19 @@ export default class Grid extends Vue {
 }
 </script>
 <style scoped>
+.grid-container {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 100%;
+  display: block;
+}
 .grid {
+  position: absolute;
   display: grid;
-  grid-template-columns: repeat(var(--columns), 25px);
+  grid-template-columns: repeat(var(--columns), 1fr);
+  border: 1px solid #4a4a4b;
+  grid-gap: 1px;
+  background-color: #4a4a4b;
 }
 </style>

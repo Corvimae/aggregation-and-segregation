@@ -10,8 +10,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class BaseEditor extends Vue {
-  @Prop()
-  title!: string;
+  @Prop() title!: string;
 
   @Prop({ default: 0 })
   offset!: number;
@@ -24,10 +23,14 @@ export default class BaseEditor extends Vue {
   display: block;
   top: 0;
   right: 0;
-  width: 200px;
+  width: 260px;
   height: 100%;
   border: 1px solid #333;
-  background-color: #f0f0f0;
+  background-color: rgba(220, 220, 220, 0.5);
   overflow: auto;
+}
+
+.editor h2 {
+  margin: 12px 8px;
 }
 </style>

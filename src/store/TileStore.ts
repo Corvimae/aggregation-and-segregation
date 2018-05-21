@@ -9,95 +9,131 @@ import { Coordinate } from "utils/MoveSimulator";
 const DEFAULT_WIDTH = 25;
 const DEFAULT_HEIGHT = DEFAULT_WIDTH;
 
+export type TileGrid = TileData[][];
 export interface TileState {
-  tiles: TileData[],
+  tiles: TileGrid,
+  stepHistory: TileGrid[],
+  currentHistoryPosition: number,
   width: number,
   height: number
 };
 
 type TileContext = ActionContext<TileState, AppState>;
 
-const findByCoordinates = (x: number, y: number) => (tile: TileData) => tile.y === y && tile.x === x;
-const doTilesMatchCoordinates = (a: TileData, b: TileData) => a.x === b.x && a.y === b.y;
-
-const updateTileSet = (state: TileState, tilesToUpdate: TileData[]) => {
-  _.difference(tilesToUpdate, state.tiles).forEach(tile => {
-    const index = _.findIndex(state.tiles, findByCoordinates(tile.x, tile.y));
-    if (index > -1) {
-      Vue.set(state.tiles, index, tile);
-    } else {
-      state.tiles.push(tile);
-    }
-  });
-}
-
 export const TileConfiguration = {
   namespaced: true,
 
   state: {
     tiles: [],
+    stepHistory: [],
+    currentHistoryPosition: 0,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   },
 
   getters: {
-    getTiles(state: TileState) {
+    getTiles(state: TileState): TileGrid {
       return state.tiles.map(_.cloneDeep);
     },
 
-    getTile(state: TileState) {
-      return (x: number, y: number) => _.cloneDeep(_.find(state.tiles, findByCoordinates(x, y)));
+    getTile(state: TileState): (x: number, y: number) => TileData | undefined {
+      return (x: number, y: number) => {
+        const tile: TileData | undefined = state.tiles[y] && state.tiles[y][x];
+
+        if (tile) {
+          return _.cloneDeep(tile);
+        } else {
+          return undefined;
+        }
+      }
     },
 
-    getTileByCoordinate(state: TileState) {
-      return (coord: Coordinate) => _.cloneDeep(_.find(state.tiles, findByCoordinates(coord.x, coord.y)));
+    getTileByCoordinate(state: TileState): (coord: Coordinate) => TileData | undefined {
+      return (coord: Coordinate) => {
+        const tile: TileData | undefined = state.tiles[coord.y] && state.tiles[coord.y][coord.x]
+
+        if (tile) {
+          return _.cloneDeep(tile);
+        } else {
+          return undefined;
+        }
+      }
     },
 
-    getWidth(state: TileState) {
+    getWidth(state: TileState): number {
       return state.width;
     },
 
-    getHeight(state: TileState) {
+    getHeight(state: TileState): number {
       return state.height;
+    },
+
+    getHistoryPosition(state: TileState): number {
+      return state.currentHistoryPosition;
+    },
+
+    getHistoryLength(state: TileState): number {
+      return state.stepHistory.length;
+    },
+
+    getHistoryState(state: TileState): (position: number) => TileGrid {
+      return (position: number) => _.cloneDeep(state.stepHistory[position]);
     }
   },
 
   mutations: {
     updateTile(state: TileState, tileToUpdate: TileData) {
-      const index = _.findIndex(state.tiles, findByCoordinates(tileToUpdate.x, tileToUpdate.y));
-
-      if (!_.isEqual(state.tiles[index], tileToUpdate)) {
-        Vue.set(state.tiles, index, tileToUpdate);
-      }
+      Vue.set(state.tiles[tileToUpdate.y], tileToUpdate.x, tileToUpdate);
     },
 
-    updateTiles(state: TileState, tilesToUpdate: TileData[]) {
-      state.tiles = tilesToUpdate;
+    updateTiles(state: TileState, payload: { tiles: TileGrid, saveState?: boolean }) {
+      if (payload.saveState) {
+        state.stepHistory.splice(state.currentHistoryPosition + 1);
+      }
 
-      //updateTileSet(state, tilesToUpdate);
+      state.tiles = payload.tiles;
+
+      if (payload.saveState) {
+        state.stepHistory.push(payload.tiles);
+        state.currentHistoryPosition += 1;
+      }
     },
 
     resize(state: TileState, payload: { width: number, height: number }) {
       state.width = payload.width;
       state.height = payload.height;
 
+      state.currentHistoryPosition = 0;
+      state.stepHistory.splice(0);
+
       // Create a new "blank" table.
-      let newTable: TileData[] = [];
+      let newTable: TileGrid = [];
 
       for (let y: number = 0; y < payload.height; y++) {
+        newTable.push([]);
+
         for (let x: number = 0; x < payload.width; x++) {
-          newTable.push(new TileData(x, y));
+          const existingTile: TileData | undefined = state.tiles[y] && state.tiles[y][x];
+          if (existingTile) {
+            newTable[y].push(existingTile);
+          } else {
+            newTable[y].push(new TileData(x, y));
+          }
         }
       }
 
-      newTable = _.unionWith(state.tiles, newTable, );
-
-      // Remove all elements outside the dimensions.
-      _.remove(newTable, tile => tile.x > payload.width || tile.y > payload.height);
-
       state.tiles = newTable;
+      state.stepHistory.push(newTable);
+    },
 
-      //updateTileSet(state, _.difference(newTable, state.tiles));
+    setHistoryPosition(state: TileState, position: number) {
+      state.tiles = _.cloneDeep(state.stepHistory[position]);
+      state.currentHistoryPosition = position;
+    },
+
+    clearHistory(state: TileState) {
+      state.stepHistory = [];
+      state.currentHistoryPosition = 0;
     }
   },
 
@@ -120,12 +156,17 @@ export const getTileByCoordinate = read(getters.getTileByCoordinate);
 export const getTiles = read(getters.getTiles);
 export const getWidth = read(getters.getWidth);
 export const getHeight = read(getters.getHeight);
+export const getHistoryPosition = read(getters.getHistoryPosition);
+export const getHistoryLength = read(getters.getHistoryLength);
+export const getHistoryState = read(getters.getHistoryState);
 
 const mutations = TileConfiguration.mutations;
 
 export const updateTile = commit(mutations.updateTile);
 export const updateTiles = commit(mutations.updateTiles);
 export const resize = commit(mutations.resize);
+export const setHistoryPosition = commit(mutations.setHistoryPosition);
+export const clearHistory = commit(mutations.clearHistory);
 
 const actions = TileConfiguration.actions;
 

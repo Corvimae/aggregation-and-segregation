@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="neighbor-selector">
     <div class="editor-label">Consider Neighbors</div>
     <div class="selector-container">
       <div class="selector-item" 
@@ -28,22 +28,33 @@ export default class TeamNeighborSelector extends Vue {
   statuses: boolean[] = this.team.neighborStatuses;
 
   toggleStatus(index: number) {
-    Vue.set(this.statuses, index, !this.statuses[index]);
+    if(index !== 4) {
+      Vue.set(this.statuses, index, !this.statuses[index]);
+    }
   }
 
 }
 </script>
 
 <style scoped>
+.neighbor-selector {
+  padding: 0 8px;
+}
+
+.editor-label {
+  padding: 4px 0;
+}
+
 .selector-container {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: repeat(3, 25px);
+  grid-gap: 1px;
+  background-color: #fff;
 }
 
 .selector-item {
   width: 25px;
   height: 25px;
-  border: 1px solid #fff;
   background-color: #e26b67;
   box-sizing: border-box;
 }

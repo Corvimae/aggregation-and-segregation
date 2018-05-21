@@ -2,7 +2,7 @@
   <base-editor title="Edit Teams">
     <team-panel v-for="team in teams" :key="team.name" :team="team"/>
 
-    <button @click="createNewTeam">New Team</button>
+    <button class="new-team" @click="createNewTeam">New Team</button>
   </base-editor>
 </template>
 
@@ -28,5 +28,7 @@ export default class TeamEditor extends Vue {
 </script>
 
 <style scoped>
-
+.new-team {
+  margin: 10px 8px;
+}
 </style>

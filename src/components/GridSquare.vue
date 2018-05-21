@@ -50,6 +50,5 @@ export default class GridSquare extends Vue {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 1px solid #333;
 }
 </style>

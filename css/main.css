@@ -1,0 +1,106 @@
+html {
+	font-family: "Jura", Helvetica, Tahoma, sans-serif;
+	font-size: 16px;
+	width: 100vw;
+	height: 100vh;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	overflow: hidden;
+	background-color: #2a2a2b;
+}
+
+div {
+	box-sizing: border-box;
+}
+
+input:not([type=range]),
+select {
+	font-family: "Jura", Helvetica, Tahoma, sans-serif;
+	font-size: 16px;
+	padding: 2px 4px;
+	border: 1px solid #666;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=range] {
+	appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	width: 14px;
+	height: 14px;
+	background-color: #35b14a;
+	margin-top: -4px;
+	border-radius: 50%;
+	cursor: pointer;
+	-webkit-appearance: none;
+}
+
+input[type=range]::-moz-range-thumb {
+	width: 14px;
+	height: 14px;
+	background-color: #35b14a;
+	margin-top: -4px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+input[type=range]::-ms-thumb {
+	width: 14px;
+	height: 14px;
+	background-color: #35b14a;
+	margin-top: -4px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	height: 6px;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
+}
+
+input[type=range]::-moz-range-track {
+	height: 6px;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
+}
+
+input[type=range]::-ms-track {
+	height: 6px;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px;
+}
+
+button {
+	background-color: #999;
+	font-family: "Jura", Helvetica, Tahoma, sans-serif;
+	font-size: 1rem;
+	color: #fff;
+	padding: 4px 8px;
+	border: none;
+	border-radius: 4px;
+}
+

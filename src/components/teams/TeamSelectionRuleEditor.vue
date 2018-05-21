@@ -7,7 +7,7 @@
       :rule="rule"
       @row-deleted="onRowDeleted(rule)"/>
 
-    <button @click="addRule">Add Rule</button>
+    <button class="add-rule" @click="addRule">Add Rule</button>
   </div>
 </template>
 
@@ -36,5 +36,13 @@ export default class TeamSelectionRuleEditor extends Vue {
 </script>
 
 <style scoped>
+.panel-label {
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-top: 1px solid #333;
+}
 
+.add-rule {
+  margin: 0 8px;
+}
 </style>

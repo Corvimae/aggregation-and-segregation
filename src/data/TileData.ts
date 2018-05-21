@@ -21,7 +21,7 @@ export default class TileData {
   public getTeamColor(store: AppStore): string {
     const team: Team | undefined = this.getTeam(store);
 
-    return team ? team.backgroundColor : "#ffffff";
+    return team ? team.backgroundColor : "#2a2a2b";
   }
 
   public getTeam(store: AppStore): Team | undefined {
