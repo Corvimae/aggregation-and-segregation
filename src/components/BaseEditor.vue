@@ -28,6 +28,7 @@ export default class BaseEditor extends Vue {
   border: 1px solid #333;
   background-color: rgba(220, 220, 220, 0.5);
   overflow: auto;
+  z-index: 99;
 }
 
 .editor h2 {

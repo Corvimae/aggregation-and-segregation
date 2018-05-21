@@ -21,6 +21,11 @@ export class Team {
   constructor(id: number, options?: TeamConfiguration) {
     this.id = id;
     this.backgroundColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
+    if(this.backgroundColor.length < 7) {
+      this.backgroundColor = this.backgroundColor + "000000".substring(this.backgroundColor.length - 1);
+    }
+    
     this.name = options && options.name || `Team ${id + 1}`;
   }
 

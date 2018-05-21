@@ -1,6 +1,9 @@
 <template>
   <div class="app">
     <div class="mid">
+      <div class="instructions">
+        Click a color to select a team, then click a square in the grid to assign the selected team to that location.
+      </div>
       <grid/>
     </div>
     <team-editor/>
@@ -55,5 +58,11 @@ export default class App extends Vue {
 .mid {
   flex-grow: 1;
   box-sizing: border-box;
+}
+
+.instructions {
+  margin: 10px;
+  color: #fff;
+  font-size: 0.8rem;
 }
 </style>
