@@ -104,3 +104,19 @@ button {
 	border-radius: 4px;
 }
 
+.footer {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 260px;
+	font-size: 0.8rem;
+	padding: 4px 8px;
+	color: #000;
+	z-index: 1000;
+}
+
+.footer a,
+.footer a:visited {
+	text-decoration: none;
+	color: #0a3373;
+}
