@@ -47,7 +47,6 @@ export default class Grid extends Vue {
   }
 
   paintTeam(event: MouseEvent, tile: TileData) {
-    console.log(this.selectedTeam);
     if(event.which === 1 && this.selectedTeam !== -1) {
       tile.teamId = this.selectedTeam;
       

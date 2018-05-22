@@ -36,7 +36,17 @@ export const TeamConfiguration = {
     },
 
     removeTeam(state: TeamState, team: Team) {
-      state.teams.splice(state.teams.indexOf(team), 1);
+      let matchIndex = -1;
+      
+      state.teams.forEach((listingTeam, index) => {
+        if(team.id === listingTeam.id) {
+          matchIndex = index;
+        }
+      });
+
+      if(matchIndex !== -1) {
+        state.teams.splice(matchIndex, 1);
+      }
     },
 
     updateTeam(state: TeamState, teamToUpdate: Team) {
